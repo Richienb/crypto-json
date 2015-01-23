@@ -1,8 +1,6 @@
 'use strict';
 
-var crypto    = require('crypto'),
-    ofmt      = 'base64',
-    algorithm = 'aes256';
+var crypto = require('crypto');
 
 function EncryptObject(algorithm, outputEncoding) {
 
@@ -14,6 +12,54 @@ function EncryptObject(algorithm, outputEncoding) {
   this.config = function (keysToEncrypt, key) {
     _this.keys = keysToEncrypt;
     _this.key  = key;
+  };
+
+  this.decrypt = function (object, callback) {
+
+    var newObject = {},
+    decipher      = crypto.createDecipher(_this.algorithm, _this.key);
+
+    function decryptString(string, key, algorithm, enc) {
+      var decipher = crypto.createDecipher(algorithm, key);
+      return decipher.update(string, enc, 'utf8') + decipher.final('utf8');
+    }
+
+    function decryptArray(array, key, algorithm, enc) {
+      return array.map(function (element) {
+        if (typeof element === 'string' || typeof element === 'number') {
+          return decryptString(String(element), key, algorithm, enc);
+        } else if (Array.isArray(element)) {
+          return decryptArray(element, key, algorithm, enc);
+        } else if (typeof element === 'object' && !Array.isArray(element)) {
+          // skip object for now
+          return element;
+        } else {
+          console.warn('Element type "' + typeof element + '" is not ' +
+            'supported.');
+          return element;
+        }
+      });
+    }
+
+    (function decryptObject() {
+      for (var node in object) {
+        if (_this.keys.indexOf(node) !== -1) {
+          if (typeof object[node] === 'string' || typeof object[node] === 'number') {
+            newObject[node] = decryptString(String(object[node]), _this.key,
+              _this.algorithm, _this.outputEncoding);
+          } else if (Array.isArray(object[node])) {
+            newObject[node] = decryptArray(object[node], _this.key, _this.algorithm,
+              _this.outputEncoding);
+            } else {
+              newObject[node] = object[node];
+            }
+          } else {
+            newObject[node] = object[node];
+          }
+        }
+        return callback(newObject);
+      }());
+
   };
 
   this.encrypt = function (object, callback) {

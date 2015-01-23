@@ -28,6 +28,8 @@ var testObject = {
 
 enc.config(['name', 'job', 'age', 'langs'], passKey);
 
+// encryption test
+
 enc.encrypt(testObject, function (result) {
   enc.config(['world'], passKey);
   testObject = result;
@@ -42,5 +44,27 @@ enc.encrypt(testObject, function (result) {
     assert.deepEqual(testObject.hello.world, encryptString('!', passKey));
     assert.deepEqual(testObject.hello.so, 'should this');
     assert.deepEqual(testObject.hello.this, 'should be unencrypted');
+
+    // decryption test
+
+    enc.config(['name', 'job', 'age', 'langs'], passKey);
+
+    enc.decrypt(testObject, function (result) {
+      enc.config(['world'], passKey);
+      testObject = result;
+      enc.decrypt(testObject.hello, function (result) {
+        testObject.hello = result;
+        assert.deepEqual(testObject.name, 'Joe Bloggs');
+        assert.deepEqual(testObject.job, 'Developer');
+        assert.deepEqual(testObject.age, 28);
+        assert.deepEqual(testObject.langs[0], 'js');
+        assert.deepEqual(testObject.langs[1], 'c++');
+        assert.deepEqual(testObject.langs[2], 'perl');
+        assert.deepEqual(testObject.hello.world, '!');
+        assert.deepEqual(testObject.hello.so, 'should this');
+        assert.deepEqual(testObject.hello.this, 'should be unencrypted');
+      });
+    });
+
   });
 });
