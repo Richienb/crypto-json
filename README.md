@@ -4,18 +4,18 @@
 
 ### API
 
-* new __encryptObject(algorithm, outputEncoding)__ (string, string): constructor function takes a specific algorithm and output encoding as arguments.
+* new __encryptObject(algorithm, outputEncoding)__ `(string, string)`: constructor function takes a specific algorithm and output encoding as arguments.
 
-* __encryptObject#config(keysToEncrypt, key)__ (array, string): set which keys in the object are to be encrypted and which pass phrase to use.
+* __encryptObject#config(keysToEncrypt, key)__ `(array, string)`: set which keys in the object are to be encrypted and which pass phrase to use.
 
-* __encryptObject#encrypt(object, callback)__ (object, function): encrypt using previously set configuration and pass result as a single argument to the callback function.
+* __encryptObject#encrypt(object, callback)__ `(object, function)`: encrypt using previously set configuration and pass result as a single argument to the callback function.
 
-* __encryptObject#decrypt(object, callback)__ (object, function): decrypt using previously set configuration and pass result as a single argument to the callback function.
+* __encryptObject#decrypt(object, callback)__ `(object, function)`: decrypt using previously set configuration and pass result as a single argument to the callback function.
 
 ### Example
 
 ```javascript
-var EncryptObject = require('./');
+var EncryptObject = require('encrypt-object');
 secureObject = new EncryptObject('aes256', 'base64');
 
 var testObject = {
