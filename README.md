@@ -24,6 +24,8 @@ _For performance, simplicity and my use cases, `keys` only refer to the first le
 
 __cryptObject.decrypt(object, password, config)__
 
+Has the same options as `config` for the __`.encrypt()`__ method.
+
 ```javascript
 var cryptoJSON = require('crypto-json')
 
