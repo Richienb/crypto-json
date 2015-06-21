@@ -28,6 +28,7 @@ Has the same options as `config` for the __`.encrypt()`__ method.
 
 ```javascript
 var cryptoJSON = require('crypto-json')
+var passKey = '487qrojdhbiuqrehdgcpe9ifyhjw4qrpuiewghqp9rerdfsgarhts'
 
 var object = {
   first_name: 'Miles',
@@ -53,7 +54,7 @@ var encrypted = cryptObject.encrypt(object, passKey, {
     last_name: 'Davis',
     instrument: 'ff331de5464bb8d754ff745da85612a7',
     birth_year: 'f2d66befbd496db7a5ad80eee8fe1f28',
-    albums: '56dc972e7c47d2d83ab80a69a72751262e7c956c7a4ec28eb558c7ac6072806a28daaf6ec57b9dfbcab1d1ff53987e181abce50ce953260e9ec1e3045911a3fff183ff2902cbada0802436897074ddf268032a29b0d8b5fbf6c0653d539490e0'
+    albums: '56dc972e7c47d2d83ab80a69a72751262e7.....'
   }
 
 */
