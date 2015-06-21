@@ -1,0 +1,29 @@
+{
+  "name": "crypto-json",
+  "version": "0.1.0",
+  "description": "selectively encrypt/decrypt an object",
+  "main": "index.js",
+  "devDependencies": {
+    "standard": "^4.3.1"
+  },
+  "scripts": {
+    "test": "standard && node test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/roryrjb/crypto-json.git"
+  },
+  "keywords": [
+    "json",
+    "encrypt",
+    "decrypt",
+    "object",
+    "crypto"
+  ],
+  "author": "Rory Bradford",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/roryrjb/crypto-json/issues"
+  },
+  "homepage": "https://github.com/roryrjb/crypto-json#readme"
+}

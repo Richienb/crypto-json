@@ -1,52 +1,79 @@
-# encrypt-object
+# crypto-json [![Build Status](https://travis-ci.org/roryrjb/crypto-json.svg?branch=master)](https://travis-ci.org/roryrjb/crypto-json) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
 
-> Selectively encrypt/decrypt an object's values.
+> Selectively encrypt/decrypt an object.
 
-### API
+### Installation
 
-* new __encryptObject(algorithm, outputEncoding)__ `(string, string)`: constructor function takes a specific algorithm and output encoding as arguments.
+```
+$ npm install crypto-json
+```
 
-* __encryptObject#config(keysToEncrypt, key)__ `(array, string)`: set which keys in the object are to be encrypted and which pass phrase to use.
+__Tests__
 
-* __encryptObject#encrypt(object, callback)__ `(object, function)`: encrypt using previously set configuration and pass result as a single argument to the callback function.
+```
+$ npm test
+```
 
-* __encryptObject#decrypt(object, callback)__ `(object, function)`: decrypt using previously set configuration and pass result as a single argument to the callback function.
+### Usage
 
-### Example
+__cryptObject.encrypt(object, password, config)__
+
+The `config` object has the following options: `algorithm` (string), `encoding` (string: `hex`, `base64`, `binary`), keys (array: choose which keys to encrypt/decrypt).
+
+_For performance, simplicity and my use cases, `keys` only refer to the first level of the object and decryption/encryption will only work on first level values, see the example code block below._
+
+__cryptObject.decrypt(object, password, config)__
 
 ```javascript
-var EncryptObject = require('encrypt-object');
-secureObject = new EncryptObject('aes256', 'base64');
+var cryptoJSON = require('crypto-json')
 
-var testObject = {
-  'name': 'Joe Bloggs',
-  'job': 'Developer',
-  'age': 28,
-  'langs': [
-    'js', 'c++', 'perl'
+var object = {
+  first_name: 'Miles',
+  last_name: 'Davis',
+  instrument: 'Trumpet',
+  birth_year: 1926,
+  albums: [
+    { title: 'Birth of the Cool', year: 1957 },
+    { title: 'Bitches Brew', year: 1970 }
   ]
-};
+}
 
-secureObject.config(['name', 'job', 'age', 'langs'], 'password');
-
-secureObject.encrypt(testObject, function (result) {
-  console.dir(result);
-});
+var encrypted = cryptObject.encrypt(object, passKey, {
+  algorithm: 'aes192',
+  encoding: 'hex',
+  keys: ['instrument', 'birth_year', 'albums']
+}) // =>
 
 /*
 
-result is:
+  {
+    first_name: 'Miles',
+    last_name: 'Davis',
+    instrument: 'ff331de5464bb8d754ff745da85612a7',
+    birth_year: 'f2d66befbd496db7a5ad80eee8fe1f28',
+    albums: '56dc972e7c47d2d83ab80a69a72751262e7c956c7a4ec28eb558c7ac6072806a28daaf6ec57b9dfbcab1d1ff53987e181abce50ce953260e9ec1e3045911a3fff183ff2902cbada0802436897074ddf268032a29b0d8b5fbf6c0653d539490e0'
+  }
 
-{
-  name: 'jm49FUCyt2pDKgraunwhHw==',
-  job: 'qrlZ8UacP2xXl7XxF2HlKw==',
-  age: '7BX9WIPNzaw/uk1u7BCxyA==',
-  langs: [
-    'bmfTu2/IdTKNdTcLflP+Aw==',
-    'xBjrusz5K/ahk7zpz0K8AQ==',
-    'tTeeha66bXJg/mmV3raD3g=='
-  ]
-}
+*/
+
+cryptObject.decrypt(encrypted, passKey, {
+  algorithm: 'aes192',
+  encoding: 'hex',
+  keys: ['instrument', 'albums']
+}) // =>
+
+/*
+
+  {
+    first_name: 'Miles',
+    last_name: 'Davis',
+    instrument: 'Trumpet',
+    birth_year: 'f2d66befbd496db7a5ad80eee8fe1f28',
+    albums: [
+      { title: 'Birth of the Cool', year: 1957 },
+      { title: 'Bitches Brew', year: 1970 }
+    ]
+  }
 
 */
 ```
