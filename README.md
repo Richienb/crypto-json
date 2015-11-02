@@ -20,9 +20,9 @@ $ npm test
 var cryptoJSON = require('crypto-json')
 ```
 
-__cryptoJSON.encrypt(object, password, [config]) => encryptedObject_
+__cryptoJSON.encrypt(object, password, [config]) => encryptedObject__
 
-__cryptoJSON.decrypt(encryptedObject, password, [config]) => object_
+__cryptoJSON.decrypt(encryptedObject, password, [config]) => object__
 
 __config (optional)__
 
