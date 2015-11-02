@@ -1,6 +1,6 @@
 {
   "name": "crypto-json",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "recursively encrypt/decrypt objects selectively by keys",
   "main": "index.js",
   "files": [
