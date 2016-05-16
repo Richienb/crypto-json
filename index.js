@@ -31,7 +31,7 @@ function cryptFunction (type) {
 
     for (var i = 0; i < length; i++) {
       var key = isArray ? i : objectKeys[i]
-      if (!keys.length || (!isArray && keys.indexOf(key) !== -1)) {
+      if (!keys.length || (!isArray && keys.indexOf(key) === -1)) {
         if (typeof object[key] !== 'object') {
           output[key] = cryptValue(object[key])
         } else if (Array.isArray(object[key])) {
@@ -56,7 +56,10 @@ exports.encrypt = function (object, password, config) {
   if (!object || typeof object !== 'object' || Array.isArray(object)) {
     throw new Error('First argument must be an object.')
   }
-  if (!password) throw new Error('Password is required.')
+
+  if (!password) {
+    throw new Error('Password is required.')
+  }
 
   encryptValue = encrypt(password, algorithm, encoding)
   encryptObject = cryptFunction('encrypt')
@@ -71,7 +74,10 @@ exports.decrypt = function (object, password, config) {
   if (!object || typeof object !== 'object' || Array.isArray(object)) {
     throw new Error('First argument must be an object.')
   }
-  if (!password) throw new Error('Password is required.')
+
+  if (!password) {
+    throw new Error('Password is required.')
+  }
 
   decryptValue = decrypt(password, algorithm, encoding)
   decryptObject = cryptFunction('decrypt')

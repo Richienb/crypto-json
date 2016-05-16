@@ -28,7 +28,7 @@ __config (optional)__
 
 * `algorithm` - select any supported by the version of Node you are using _(default: `aes256`)_
 * `encoding` - `hex`, `base64`, `binary` _(default: `hex`)_
-* `keys` - specify which keys to encrypt/decrypt _(default: `[]`, i.e. encrypt/decrypt everything)_
+* `keys` - specify which keys to ignore when encrypting/decrypting _(default: `[]`, i.e. encrypt/decrypt everything)_
 
 ### Example
 
@@ -71,3 +71,4 @@ console.dir(encrypted) // =>
 ### License
 
 MIT
+
