@@ -8,12 +8,6 @@
 $ npm install crypto-json --save
 ```
 
-__Tests__
-
-```
-$ npm test
-```
-
 ### Usage
 
 ```javascript
@@ -67,8 +61,3 @@ console.dir(encrypted) // =>
        { title: 'Bitches Brew', year: 1970 } ] }
 */
 ```
-
-### License
-
-MIT
-
