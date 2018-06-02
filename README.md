@@ -11,7 +11,7 @@ $ npm install crypto-json --save
 ### Usage
 
 ```javascript
-var cryptoJSON = require('crypto-json')
+const cryptoJSON = require('crypto-json')
 ```
 
 __cryptoJSON.encrypt(object, password, [config]) => encryptedObject__
@@ -27,37 +27,51 @@ __config (optional)__
 ### Example
 
 ```javascript
-var cryptoJSON = require('crypto-json')
-var cipher = 'camellia-128-cbc'
-var passKey = '394rwe78fudhwqpwriufdhr8ehyqr9pe8fud'
-var encoding = 'hex'
+const cryptoJSON = require('crypto-json')
+const cipher = 'camellia-128-cbc'
+const passKey = '394rwe78fudhwqpwriufdhr8ehyqr9pe8fud'
+const encoding = 'hex'
 
-var object = {
-  first_name: 'Miles',
-  last_name: 'Davis',
-  instrument: 'Trumpet',
-  birth_year: 1926,
-  albums: [
-    {title: 'Birth of the Cool', year: 1957},
-    {title: 'Bitches Brew', year: 1970}
-  ]
+const input = {
+  hello: {
+    bar: ['hello', 'world'],
+    baz: {
+      a: {
+        b: ['a', {test: 1}]
+      }
+    }
+  }
 }
 
-var encrypted = cryptoJSON.encrypt(object, passKey, {
-  algorithm: cipher,
-  encoding: encoding,
-  keys: ['first_name', 'birth_year', 'albums']
-})
+const password = 'some random password'
 
-console.dir(encrypted) // =>
+// keys act like a white list, so for example if you want to encrypt a nested
+// key "test" you also need to specify its parent keys,
+// i.e. "b", "a", "baz", "hello" in the above input object
+
+const keys = ['hello', 'bar', 'baz', 'a', 'b', 'test']
+const cipher = 'aes256'
+const encoding = 'hex'
+
+const output = cryptoJSON.encrypt(
+  input, password, {encoding, keys, cipher}
+)
 
 /*
-  { first_name: 'ac64e6168ebbb8c575a567fa4bdd467c',
-    last_name: 'Davis',
-    instrument: 'Trumpet',
-    birth_year: '735f22844209a3dea04f2c070ead7c5b',
-    albums:
-     [ { title: 'Birth of the Cool', year: 1957 },
-       { title: 'Bitches Brew', year: 1970 } ] }
+
+{
+    "hello": {
+        "bar": ["297b274fcedbe37524bed6994d790eee", "7ab91684f3ab910423d724560205ac56"],
+        "baz": {
+            "a": {
+                "b": ["79ca248dc3c51388ef923acea1397384", {
+                    "test": "03f9900f6f7b5bbfb9be3be6d985faa5"
+                }]
+            }
+        }
+    }
+}
+
 */
+
 ```
