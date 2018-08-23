@@ -28,8 +28,7 @@ __config (optional)__
 
 ```javascript
 const cryptoJSON = require('crypto-json')
-const cipher = 'camellia-128-cbc'
-const passKey = '394rwe78fudhwqpwriufdhr8ehyqr9pe8fud'
+const algorithm = 'camellia-128-cbc'
 const encoding = 'hex'
 
 const input = {
@@ -50,11 +49,11 @@ const password = 'some random password'
 // i.e. "b", "a", "baz", "hello" in the above input object
 
 const keys = ['hello', 'bar', 'baz', 'a', 'b', 'test']
-const cipher = 'aes256'
+const algorithm = 'aes256'
 const encoding = 'hex'
 
 const output = cryptoJSON.encrypt(
-  input, password, {encoding, keys, cipher}
+  input, password, {encoding, keys, algorithm}
 )
 
 /*
