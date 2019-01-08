@@ -20,6 +20,10 @@ const encrypt = (pw, algo, enc) => (value) => {
 
 function cryptFunction (type) {
   return function (object, keys, isArray) {
+    if (!object) {
+      return object
+    }
+    
     const cryptValue = (type === 'encrypt') ? encryptValue : decryptValue
     const cryptObject = (type === 'encrypt') ? encryptObject : decryptObject
     const output = isArray ? object.map(e => e) : Object.assign({}, object)
