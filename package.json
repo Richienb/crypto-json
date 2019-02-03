@@ -1,6 +1,6 @@
 {
   "name": "crypto-json",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "recursively encrypt/decrypt object values",
   "main": "index.js",
   "files": [
@@ -31,5 +31,8 @@
   "bugs": {
     "url": "https://github.com/roryrjb/crypto-json/issues"
   },
-  "homepage": "https://github.com/roryrjb/crypto-json#readme"
+  "homepage": "https://github.com/roryrjb/crypto-json#readme",
+  "dependencies": {
+    "react-native-crypto": "^2.1.2"
+  }
 }
