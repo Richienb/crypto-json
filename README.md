@@ -1,3 +1,5 @@
+[__Looking for a new maintainer__](https://github.com/roryrjb/crypto-json/issues/8)
+
 # crypto-json [![Build Status](https://travis-ci.org/roryrjb/crypto-json.svg?branch=master)](https://travis-ci.org/roryrjb/crypto-json) [![js-standard-style](https://img.shields.io/badge/code%20style-standard-brightgreen.svg?style=flat)](https://github.com/feross/standard)
 
 > Recursively encrypt/decrypt objects selectively by keys.
