@@ -8,12 +8,11 @@
     "test.js"
   ],
   "devDependencies": {
-    "ahcom": "0.0.10",
-    "randomr": "=2.1.1",
-    "standard": "^12.0.1"
+    "mocha": "^8.2.1",
+    "standard": "^16.0.3"
   },
   "scripts": {
-    "test": "./node_modules/.bin/standard && ./node_modules/.bin/ahcom"
+    "test": "./node_modules/.bin/standard && ./node_modules/.bin/mocha"
   },
   "repository": {
     "type": "git",
@@ -33,6 +32,7 @@
   },
   "homepage": "https://github.com/roryrjb/crypto-json#readme",
   "dependencies": {
-    "react-native-crypto": "^2.1.2"
+    "react-native-crypto": "^2.2.0",
+    "react-native-randombytes": "^3.6.0"
   }
 }

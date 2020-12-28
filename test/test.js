@@ -3,13 +3,13 @@
 /* global describe, it */
 
 const cryptoJSON = require('../')
-const randomr = require('randomr')
+const crypto = require('crypto')
 const assert = require('assert')
 
 describe('arguments', () => {
   it('config should be optional (no keys)', () => {
-    const input = {hello: 'world'}
-    const password = randomr(64, 'hex')
+    const input = { hello: 'world' }
+    const password = crypto.randomBytes(32)
     cryptoJSON.encrypt(input, password)
   })
 
@@ -21,17 +21,17 @@ describe('arguments', () => {
       }
     }
 
-    const password = randomr(64, 'hex')
+    const password = crypto.randomBytes(32)
     const output = cryptoJSON.encrypt(input, password)
 
     assert.notDeepEqual(input, output)
   })
 
   it('encoding, cipher should be optional', () => {
-    const input = {hello: 'world'}
-    const password = randomr(64, 'hex')
+    const input = { hello: 'world' }
+    const password = crypto.randomBytes(32)
     const keys = ['hello']
-    const output = cryptoJSON.encrypt(input, password, {keys})
+    const output = cryptoJSON.encrypt(input, password, { keys })
 
     assert.notDeepEqual(output, input)
   })
@@ -44,13 +44,13 @@ describe('flat object', () => {
       foo: 'bar'
     }
 
-    const password = randomr(64, 'hex')
+    const password = crypto.randomBytes(32)
     const keys = ['hello']
     const cipher = 'aes256'
     const encoding = 'hex'
 
     const output = cryptoJSON.encrypt(
-      input, password, {encoding, keys, cipher}
+      input, password, { encoding, keys, cipher }
     )
 
     assert.notEqual(output.hello, input.hello)
@@ -63,20 +63,20 @@ describe('flat object', () => {
       foo: 2.3
     }
 
-    const password = randomr(64, 'hex')
+    const password = crypto.randomBytes(32)
     const keys = ['hello']
     const cipher = 'aes256'
     const encoding = 'hex'
 
     const output = cryptoJSON.encrypt(
-      input, password, {encoding, keys, cipher}
+      input, password, { encoding, keys, cipher }
     )
 
     assert.notEqual(output.hello, input.hello)
     assert.equal(output.foo, input.foo)
 
     const original = cryptoJSON.decrypt(
-      output, password, {encoding, keys, cipher}
+      output, password, { encoding, keys, cipher }
     )
 
     assert.deepEqual(input, original)
@@ -90,13 +90,13 @@ describe('flat object', () => {
       x: true
     }
 
-    const password = randomr(64, 'hex')
+    const password = crypto.randomBytes(32)
     const keys = Object.keys(input)
     const cipher = 'aes256'
     const encoding = 'hex'
 
     const output = cryptoJSON.encrypt(
-      input, password, {encoding, keys, cipher}
+      input, password, { encoding, keys, cipher }
     )
 
     for (const key in input) {
@@ -104,7 +104,7 @@ describe('flat object', () => {
     }
 
     const original = cryptoJSON.decrypt(
-      output, password, {encoding, keys, cipher}
+      output, password, { encoding, keys, cipher }
     )
 
     assert.deepEqual(input, original)
@@ -119,20 +119,20 @@ describe('nested objects', () => {
       }
     }
 
-    const password = randomr(64, 'hex')
+    const password = crypto.randomBytes(32)
     const keys = ['hello', 'bar']
     const cipher = 'aes256'
     const encoding = 'hex'
 
     const output = cryptoJSON.encrypt(
-      input, password, {encoding, keys, cipher}
+      input, password, { encoding, keys, cipher }
     )
 
     assert.deepEqual(['hello'], Object.keys(output))
     assert.deepEqual(['bar'], Object.keys(output.hello))
 
     const original = cryptoJSON.decrypt(
-      output, password, {encoding, keys, cipher}
+      output, password, { encoding, keys, cipher }
     )
 
     assert.deepEqual(input, original)
@@ -145,13 +145,13 @@ describe('nested objects', () => {
       }
     }
 
-    const password = randomr(64, 'hex')
+    const password = crypto.randomBytes(32)
     const keys = ['hello', 'bar']
     const cipher = 'aes256'
     const encoding = 'hex'
 
     const output = cryptoJSON.encrypt(
-      input, password, {encoding, keys, cipher}
+      input, password, { encoding, keys, cipher }
     )
 
     assert(Array.isArray(output.hello.bar))
@@ -162,7 +162,7 @@ describe('nested objects', () => {
     }
 
     const original = cryptoJSON.decrypt(
-      output, password, {encoding, keys, cipher}
+      output, password, { encoding, keys, cipher }
     )
 
     assert.deepEqual(input, original)
@@ -174,25 +174,25 @@ describe('nested objects', () => {
         bar: ['hello', 'world'],
         baz: {
           a: {
-            b: ['a', {test: 1}]
+            b: ['a', { test: 1 }]
           }
         }
       }
     }
 
-    const password = randomr(64, 'hex')
+    const password = crypto.randomBytes(32)
     const keys = ['hello', 'bar', 'baz', 'a', 'b', 'test']
     const cipher = 'aes256'
     const encoding = 'hex'
 
     const output = cryptoJSON.encrypt(
-      input, password, {encoding, keys, cipher}
+      input, password, { encoding, keys, cipher }
     )
 
     assert.notDeepEqual(output, input)
 
     const original = cryptoJSON.decrypt(
-      output, password, {encoding, keys, cipher}
+      output, password, { encoding, keys, cipher }
     )
 
     assert.deepEqual(input, original)
