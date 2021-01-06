@@ -20,11 +20,15 @@ __cryptoJSON.encrypt(object, password, [config]) => encryptedObject__
 
 __cryptoJSON.decrypt(encryptedObject, password, [config]) => object__
 
+__password__
+
+Random password, length according to the selected algorithm, e.g. 32 bytes length with `aes-256-cbc`.
+
 __config (optional)__
 
 * `algorithm` - select any supported by the version of Node you are using _(default: `aes-256-cbc`)_
 * `encoding` - `hex`, `base64`, `binary` _(default: `hex`)_
-* `keys` - specify which keys to encrypting/decrypting _(default: `[]`, i.e. encrypt/decrypt nothing)_
+* `keys` - specify which keys to encrypting/decrypting _(default: `[]`, i.e. encrypt/decrypt everything)_
 
 ### Example
 
