@@ -24,7 +24,7 @@ describe('arguments', () => {
     const password = crypto.randomBytes(32)
     const output = cryptoJSON.encrypt(input, password)
 
-    assert.notDeepEqual(input, output)
+    assert.notDeepStrictEqual(input, output)
   })
 
   it('encoding, cipher should be optional', () => {
@@ -33,7 +33,7 @@ describe('arguments', () => {
     const keys = ['hello']
     const output = cryptoJSON.encrypt(input, password, { keys })
 
-    assert.notDeepEqual(output, input)
+    assert.notDeepStrictEqual(output, input)
   })
 })
 
@@ -53,8 +53,8 @@ describe('flat object', () => {
       input, password, { encoding, keys, cipher }
     )
 
-    assert.notEqual(output.hello, input.hello)
-    assert.equal(output.foo, input.foo)
+    assert.notStrictEqual(output.hello, input.hello)
+    assert.strictEqual(output.foo, input.foo)
   })
 
   it('numbers', () => {
@@ -72,14 +72,14 @@ describe('flat object', () => {
       input, password, { encoding, keys, cipher }
     )
 
-    assert.notEqual(output.hello, input.hello)
-    assert.equal(output.foo, input.foo)
+    assert.notStrictEqual(output.hello, input.hello)
+    assert.strictEqual(output.foo, input.foo)
 
     const original = cryptoJSON.decrypt(
       output, password, { encoding, keys, cipher }
     )
 
-    assert.deepEqual(input, original)
+    assert.deepStrictEqual(input, original)
   })
 
   it('mixed', () => {
@@ -100,14 +100,14 @@ describe('flat object', () => {
     )
 
     for (const key in input) {
-      assert.notEqual(input[key], output[key])
+      assert.notStrictEqual(input[key], output[key])
     }
 
     const original = cryptoJSON.decrypt(
       output, password, { encoding, keys, cipher }
     )
 
-    assert.deepEqual(input, original)
+    assert.deepStrictEqual(input, original)
   })
 })
 
@@ -115,7 +115,8 @@ describe('nested objects', () => {
   it('should encrypt nested bar value only', () => {
     const input = {
       hello: {
-        bar: 'baz'
+        bar: 'baz',
+        foo: 'foz'
       }
     }
 
@@ -128,14 +129,14 @@ describe('nested objects', () => {
       input, password, { encoding, keys, cipher }
     )
 
-    assert.deepEqual(['hello'], Object.keys(output))
-    assert.deepEqual(['bar'], Object.keys(output.hello))
+    assert.notDeepStrictEqual(input, output)
+    assert.deepStrictEqual(input.hello.foo, output.hello.foo)
 
     const original = cryptoJSON.decrypt(
       output, password, { encoding, keys, cipher }
     )
 
-    assert.deepEqual(input, original)
+    assert.deepStrictEqual(input, original)
   })
 
   it('should encrypt nested array strings', () => {
@@ -155,17 +156,17 @@ describe('nested objects', () => {
     )
 
     assert(Array.isArray(output.hello.bar))
-    assert.equal(output.hello.bar.length, input.hello.bar.length)
+    assert.strictEqual(output.hello.bar.length, input.hello.bar.length)
 
     for (let i = 0, len = input.hello.bar.length; i < len; i++) {
-      assert.notEqual(input.hello.bar[i], output.hello.bar[i])
+      assert.notStrictEqual(input.hello.bar[i], output.hello.bar[i])
     }
 
     const original = cryptoJSON.decrypt(
       output, password, { encoding, keys, cipher }
     )
 
-    assert.deepEqual(input, original)
+    assert.deepStrictEqual(input, original)
   })
 
   it('complex', () => {
@@ -189,12 +190,12 @@ describe('nested objects', () => {
       input, password, { encoding, keys, cipher }
     )
 
-    assert.notDeepEqual(output, input)
+    assert.notDeepStrictEqual(output, input)
 
     const original = cryptoJSON.decrypt(
       output, password, { encoding, keys, cipher }
     )
 
-    assert.deepEqual(input, original)
+    assert.deepStrictEqual(input, original)
   })
 })
