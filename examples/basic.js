@@ -9,10 +9,10 @@ const input = {
     bar: ['hello', 'world'],
     baz: {
       secret: 'hide a secret',
-      b: {test: 1}
-      }
+      b: { test: 1 }
     }
   }
+}
 
 const password = 'random password 32 bytes length.'
 
@@ -23,7 +23,7 @@ const password = 'random password 32 bytes length.'
 const keys = ['hello', 'baz', 'secret']
 
 const output = cryptoJSON.encrypt(
-  input, password, {encoding, keys, algorithm}
+  input, password, { encoding, keys, algorithm }
 )
-console.log(util.inspect(input ,{showHidden: false, depth: null, colors: true}))
-console.log(util.inspect(output ,{showHidden: false, depth: null, colors: true}))
+console.log(util.inspect(input, { showHidden: false, depth: null, colors: true }))
+console.log(util.inspect(output, { showHidden: false, depth: null, colors: true }))
