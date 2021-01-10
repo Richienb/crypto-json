@@ -20,59 +20,59 @@ __cryptoJSON.encrypt(object, password, [config]) => encryptedObject__
 
 __cryptoJSON.decrypt(encryptedObject, password, [config]) => object__
 
+__password__
+
+Random password, length according to the selected algorithm, e.g. 32 bytes length with `aes-256-cbc`.
+
 __config (optional)__
 
-* `algorithm` - select any supported by the version of Node you are using _(default: `aes256`)_
+* `algorithm` - select any supported by the version of Node you are using _(default: `aes-256-cbc`)_
 * `encoding` - `hex`, `base64`, `binary` _(default: `hex`)_
-* `keys` - specify which keys to ignore when encrypting/decrypting _(default: `[]`, i.e. encrypt/decrypt everything)_
+* `keys` - specify which keys to encrypting/decrypting _(default: `[]`, i.e. encrypt/decrypt everything)_
 
 ### Example
 
 ```javascript
+const util = require('util')
 const cryptoJSON = require('crypto-json')
-const algorithm = 'camellia-128-cbc'
+const algorithm = 'aes-256-cbc'
 const encoding = 'hex'
 
 const input = {
   hello: {
     bar: ['hello', 'world'],
     baz: {
-      a: {
-        b: ['a', {test: 1}]
+      secret: 'hide a secret',
+      b: {test: 1}
       }
     }
   }
-}
 
-const password = 'some random password'
+const password = 'random password 32 bytes length.'
 
 // keys act like a white list, so for example if you want to encrypt a nested
-// key "test" you also need to specify its parent keys,
-// i.e. "b", "a", "baz", "hello" in the above input object
+// key "secret" you also need to specify its parent keys,
+// i.e. "secret", "baz", "hello" in the above input object
 
-const keys = ['hello', 'bar', 'baz', 'a', 'b', 'test']
-const algorithm = 'aes256'
-const encoding = 'hex'
+const keys = ['hello', 'baz', 'secret']
 
 const output = cryptoJSON.encrypt(
   input, password, {encoding, keys, algorithm}
 )
+console.log(util.inspect(input ,{showHidden: false, depth: null, colors: true}))
+console.log(util.inspect(output ,{showHidden: false, depth: null, colors: true}))
 
 /*
 
 {
-    "hello": {
-        "bar": ["297b274fcedbe37524bed6994d790eee", "7ab91684f3ab910423d724560205ac56"],
-        "baz": {
-            "a": {
-                "b": ["79ca248dc3c51388ef923acea1397384", {
-                    "test": "03f9900f6f7b5bbfb9be3be6d985faa5"
-                }]
-            }
-        }
+  hello: {
+    bar: [ 'hello', 'world' ],
+    baz: {
+      secret: 'b2114cc78fcee8c58a14ba2df511dd05:e5a58d9b9eaab60ca0830d1c7ad4fd41',
+      b: { test: 1 }
     }
+  }
 }
-
 */
 
 ```
